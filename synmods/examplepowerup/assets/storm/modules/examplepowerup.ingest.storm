@@ -1,0 +1,18 @@
+/* all APIs in this module are unstable/internal */
+
+
+$srcnode = $lib.null
+function initMetaSource() {
+    if $srcnode { return($srcnode) }
+    [ meta:source=$modconf.source :name=$modconf.name ]
+    $srcnode = $node
+    return ( $node )
+}
+
+
+function addDns(item) {
+    [ inet:dns:a=($item.fqdn, $item.ipv4)
+        .seen ?= $item.seen
+         <(seen)+ { yield $srcnode } 
+    ]
+}

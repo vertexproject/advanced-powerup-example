@@ -1,0 +1,5 @@
+init {
+    if $cmdopts.debug { $lib.debug = $lib.true }
+    $mod = $lib.import(examplepowerup)
+}
+divert --size $cmdopts.size $cmdopts.yield $mod.search($cmdopts.query)

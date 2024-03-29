@@ -1,0 +1,33 @@
+[build-system]
+requires = ['setuptools>=68.0.0', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'examplepowerup'
+version = '0.0.1'
+authors = [
+    { name = 'The Vertex Project LLC', email = 'root@vertex.link'},
+]
+requires-python = '>=3.11'
+classifiers = [
+    'Private :: Do Not Upload',
+    'Programming Language :: Python :: 3.11',
+]
+dependencies = [
+    'synapse>=2.165.0,<3.0.0',
+]
+
+[tool.setuptools]
+include-package-data = true
+packages = [
+    'synmods',
+    'synmods.examplepowerup',
+    'synmods.examplepowerup.assets',
+    'synmods.examplepowerup.tests',
+]
+
+[tool.setuptools.package-data]
+'synmods' = [
+    'examplepowerup/assets/**',
+    'examplepowerup/tests/assets/**',
+]

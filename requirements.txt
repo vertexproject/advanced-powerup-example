@@ -1,0 +1,8 @@
+#######################################################################
+# These requirements are for doing development on the service.
+# These should not be the requirements used for deploying or installing
+# any python code associated with the service.
+#######################################################################
+synapse>=2.165.0,<3.0.0
+vtx-common>=0.1.26,<0.2.0
+build
