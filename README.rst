@@ -15,7 +15,7 @@ for an Advanced Power-Up, the following steps should be done:
 
     python -m pip install -U -r requirements.txt
 
-#. Replace the ``3faafd06b11d05ed4f8a126236de63c3`` guid value in the repository with a randomy value. You can use
+#. Replace the ``3faafd06b11d05ed4f8a126236de63c3`` guid value in the repository with a random value. You can use
   ``python -m synapse.tools.guid`` to generate a random guid for this purpose. This ensures that your Power-Up will
   have a unique guid for its ``meta:source`` node. You can use the following commands to do that:
 
@@ -66,6 +66,7 @@ CI systems as needed.
 
 Docker Images
 -------------
+
 Docker images can be built using the ``docker/scripts/build.sh`` script. This script will also set the current ``git``
 commit in the ``version.py`` file.
 
@@ -85,7 +86,8 @@ You can modify this script as needed. You can also setup your own CI processes t
 
 Deploying Your Advanced Powerup
 -------------------------------
-One a container has been built and is available, you can deploy the service. This follows the same process that is
+
+Once a container has been built and is available, you can deploy the service. This follows the same process that is
 described in the Synapse `Deployment Guide`_.
 
 **Inside the AHA container**
@@ -185,8 +187,8 @@ The ``.whl`` file should now be located in the ``./dist`` directory.
 Bumpversion
 -----------
 
-The ``bumpversion`` tool can be used to increment the version of the powerup. This can be done as part any release
-processe you use for the powerup. The bumpversion configuration will automatically update the Storm package version
+The ``bumpversion`` tool can be used to increment the version of the powerup. This can be done as part of any release
+processes you use for the powerup. The bumpversion configuration will automatically update the Storm package version
 and the version tracked in the ``version.py`` file.
 
 When the project is ready to be tagged for release from the initial ``0.0.1`` version of the library, you can do the
