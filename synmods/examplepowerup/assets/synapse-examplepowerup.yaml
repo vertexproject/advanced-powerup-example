@@ -53,6 +53,7 @@ modules:
               type: str
               desc: The query string to search.
           returns:
+            name: yields
             type: node
             desc: Yields nodes made by searching for a query.
   - name: examplepowerup.setup
