@@ -16,8 +16,8 @@ for an Advanced Power-Up, the following steps should be done:
     python -m pip install -U -r requirements.txt
 
 #. Replace the ``3faafd06b11d05ed4f8a126236de63c3`` guid value in the repository with a random value. You can use
-  ``python -m synapse.tools.guid`` to generate a random guid for this purpose. This ensures that your Power-Up will
-  have a unique guid for its ``meta:source`` node. You can use the following commands to do that:
+   ``python -m synapse.tools.guid`` to generate a random guid for this purpose. This ensures that your Power-Up will
+   have a unique guid for its ``meta:source`` node. You can use the following commands to do that:
 
   ::
 
