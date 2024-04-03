@@ -1,0 +1,152 @@
+name: synapse-examplepowerup
+version: 0.0.1
+synaspse_version: '>=2.165.0,<3.0.0'
+desc: |
+  Synapse-ExamplePowerup adds new Storm commands.
+
+genopts:
+  dotstorm: true
+
+author:
+  url: https://vertex.link
+  name: The Vertex Project, LLC.
+
+# These .md files are built from the module docs directory during the
+# container build process.
+docs:
+  - title: User Guide
+    path: docs/_build/userguide.md
+  - title: Admin Guide
+    path: docs/_build/adminguide.md
+  - title: Package Documentation
+    path: docs/_build/stormpackage.md
+  - title: Changelog
+    path: docs/_build/changelog.md
+
+perms:
+  - perm: [ power-ups, examplepowerup, user ]
+    gate: cortex
+    desc: Controls user access to Synapse-ExamplePowerup.
+
+modules:
+  - name: examplepowerup
+    apidefs:
+      - name: enrich
+        desc: |
+          Enrich a node.
+        type:
+          type: function
+          args:
+            - name: inode
+              type: node
+              desc: The node to enrich.
+          returns:
+            type: node
+            desc: Yields new nodes made by enriching the node.
+      - name: search
+        desc: |
+          Perform a search query in order to make nodes.
+        type:
+          type: function
+          args:
+            - name: query
+              type: str
+              desc: The query string to search.
+          returns:
+            name: yields
+            type: node
+            desc: Yields nodes made by searching for a query.
+  - name: examplepowerup.setup
+  - name: examplepowerup.ingest
+    modconf:
+      source: 3faafd06b11d05ed4f8a126236de63c3
+      name: ExamplePowerup
+
+  - name: examplepowerup.privsep
+    asroot:perms:
+      - [ power-ups, examplepowerup, user ]
+  - name: examplepowerup.workflows
+
+commands:
+
+  - name: examplepowerup.enrich
+    descr: |
+      One line description.
+      
+      More detailed description talking about what kind of input the command takes
+      and what it does with it.
+      
+      Examples:
+      
+        // one line explain the command
+        inet:fqdn=vertex.link | examplepowerup.enrich
+      
+        // one line explain the command
+        inet:fqdn=vertex.link | examplepowerup.enrich --yield | limit 10
+
+    perms:
+      - [ power-ups, examplepowerup, user ]
+
+    cmdargs:
+      - - --debug
+        - default: false
+          action: store_true
+          help: Show verbose debug output.
+
+      - - --size
+        - default: null
+          type: int
+          help: Limit the total output. This may be per node.
+
+      - - --yield
+        - default: false
+          action: store_true
+          help: Yield the newly created nodes.
+
+    cmdinputs:
+      - form: inet:fqdn
+        help: Do a thing with an FQDN
+
+  - name: examplepowerup.search
+    descr: |
+      One line description.
+      
+      More detailed description talking about what kind of input the command takes
+      and what it does with it.
+      
+      Examples:
+      
+        // A couple examples of the command
+        examplepowerup.search foobar
+      
+        hash:md5 | limit 1 | examplepowerup.search --yield $node.value()
+
+    perms:
+      - [ power-ups, examplepowerup, user ]
+
+    cmdargs:
+      - - query
+        - type: str
+          help: The query string.
+
+      - - --debug
+        - default: false
+          action: store_true
+          help: Show verbose debug output.
+
+      - - --size
+        - default: null
+          type: int
+          help: Limit the total output. This may be per node.
+
+      - - --yield
+        - default: false
+          action: store_true
+          help: Yield the newly created nodes.
+
+optic:
+  actions:
+    - name: examplepowerup.enrich
+      forms: [ inet:fqdn ]
+      storm: examplepowerup.enrich
+      descr: Enrich nodes using Synapse-ExamplePowerup

@@ -1,0 +1,53 @@
+/* Synapse-ExamplePowerup API */
+
+$ingest = $lib.import(examplepowerup.ingest)
+$privsep = $lib.import(examplepowerup.privsep)
+
+function enrich(inode) {
+    
+    $ingest.initMetaSource()
+    
+    $form = $inode.form()
+    switch $form {
+
+        "inet:fqdn": {
+            $resp = $privsep.getDnsByFqdn($inode)
+
+            if $resp.success {
+                for $item in $resp.result {
+                    yield $ingest.addDns($item)
+                }
+            } else {
+                $lib.warn($resp.mesg)
+            }
+        }
+
+        * : {
+            if $lib.debug {
+                $lib.print(`enrich() skipping node {$form}={$inode.repr()}`)
+            }
+        }
+    }
+
+}
+
+function search(query) {
+    
+    $ingest.initMetaSource()
+    
+    for ($mtype, $data, $info) in $privsep.iterSearchResults($query) {
+        // Can handle $data / $info as a caller sees fit.
+        switch $mtype {
+            "data": {
+                yield $ingest.addDns($data)
+            }
+            "warn": {
+                $lib.warn($info.mesg)
+            }
+            "print": {
+                $lib.print($info.mesg)
+            }
+        }
+    }
+
+}

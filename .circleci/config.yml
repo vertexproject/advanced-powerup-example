@@ -1,0 +1,90 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2.1
+
+commands:
+
+  setup_venv_cached:
+    description: "Restore, setup, and save a venv"
+    steps:
+      - restore_cache:
+          keys:
+            - v3-venv-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-{{ checksum "pyproject.toml" }}
+
+      - run:
+          name: setup venv
+          command: |
+            python3 -m venv --copies venv
+            . venv/bin/activate
+            python3 -m pip install -U wheel pip
+            python3 -m pip install -U -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v3-venv-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-{{ checksum "pyproject.toml" }}
+
+  test_steps:
+    description: "Run tests"
+    steps:
+
+      - checkout
+
+      - setup_venv_cached
+
+      - run:
+          name: install synmod
+          command: |
+            . venv/bin/activate
+            python3 -m pip install -e .
+
+      - run:
+          name: syntax
+          command: |
+            . venv/bin/activate
+            if [ -n "${RUN_SYNTAX}" ]; then pycodestyle synmods; fi;
+
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            mkdir test-reports
+            circleci tests glob synmods/*/tests/test*.py | circleci tests run --split-by=timings --command="xargs python -m pytest -v -s -rs --durations 6 --maxfail 1 -p no:logging --junitxml=test-reports/junit.xml -o junit_family=xunit1 ${COVERAGE_ARGS}"
+
+      - store_test_results:
+          path: test-reports
+
+      - store_artifacts:
+          path: test-reports
+
+jobs:
+
+  python311:
+    parallelism: 1
+    docker:
+      - image: cimg/python:3.11
+        environment:
+          COVERAGE_ARGS: --cov synmods.examplepowerup --no-cov-on-fail
+          PYVERS: 3.11
+          RUN_SYNTAX: 1
+
+    working_directory: ~/repo
+
+    steps:
+      - test_steps
+
+workflows:
+  version: 2.1
+  run_tests:
+    unless:
+      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    jobs:
+      - python311
+
+  nightly:
+    when:
+      equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+    jobs:
+      - python311

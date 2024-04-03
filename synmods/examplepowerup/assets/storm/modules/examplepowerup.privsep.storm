@@ -1,0 +1,27 @@
+/* all APIs in this module are unstable/internal */
+
+/* Privileged code goes here */
+
+// The double underscores on the object means that someone who imports this
+// module cannot reference the service object. They can only call the declared
+// functions.
+$__svc = $lib.service.get($modconf.svciden)
+
+function getDnsByFqdn(fqdn) {
+    $resp = $__svc.getDnsByFqdn($fqdn.repr())
+    if $lib.debug {
+        $lib.print('getDnsByFqdn resp')
+        $lib.pprint($resp)
+    }
+    return($resp)
+}
+
+function iterSearchResults(query) {
+    for $mesg in $__svc.search($query) {
+        if $lib.debug {
+            $lib.print('iterSearchResults mesg')
+            $lib.pprint($mesg)
+        }
+        emit $mesg
+    }
+}
