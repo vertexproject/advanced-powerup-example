@@ -9,13 +9,13 @@ Using this Repo
 This repository is designed to be able to be forked and modified as needed. If this is being used as the basis
 for an Advanced Power-Up, the following steps should be done:
 
-#. Setup a Python 3.11 environment as needed (using tools such as ``venv`` or ``pyenv``). Install the requirements:
+1. Setup a Python 3.11 environment as needed (using tools such as ``venv`` or ``pyenv``). Install the requirements:
 
   ::
 
     python -m pip install -U -r requirements.txt
 
-#. Replace the ``3faafd06b11d05ed4f8a126236de63c3`` guid value in the repository with a random value. You can use
+2. Replace the ``3faafd06b11d05ed4f8a126236de63c3`` guid value in the repository with a random value. You can use
    ``python -m synapse.tools.guid`` to generate a random guid for this purpose. This ensures that your Power-Up will
    have a unique guid for its ``meta:source`` node. You can use the following commands to do that:
 
@@ -27,7 +27,7 @@ for an Advanced Power-Up, the following steps should be done:
     git add -p
     git commit -m "Updated meta:source guid to $NEW_GUID"
 
-#. Many files have ``examplepowerup`` in their path, and references to that string in their contents
+3. Many files have ``examplepowerup`` in their path, and references to that string in their contents
    (``examplepowerup``, ``ExamplePowerup``). You can go through the following steps to move the files and update their
    contents. The following example renames the powerup to ``mypowerup``.
 
