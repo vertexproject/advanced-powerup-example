@@ -1,6 +1,6 @@
 name: synapse-examplepowerup
 version: 0.0.1
-synaspse_version: '>=2.165.0,<3.0.0'
+synaspse_version: '>=2.178.0,<3.0.0'
 desc: |
   Synapse-ExamplePowerup adds new Storm commands.
 

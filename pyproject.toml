@@ -14,7 +14,7 @@ classifiers = [
     'Programming Language :: Python :: 3.11',
 ]
 dependencies = [
-    'synapse>=2.165.0,<3.0.0',
+    'synapse>=2.178.0,<3.0.0',
 ]
 
 [tool.setuptools]

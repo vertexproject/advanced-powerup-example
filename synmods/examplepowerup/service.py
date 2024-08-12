@@ -46,7 +46,7 @@ class ExamplePowerup(s_cell.Cell):
         # Initialize any pre-nexus aware storage requirements.
 
         # Check for required config values
-        self.foo = self.conf.reqConfValu('foo')
+        self.foo = self.conf.req('foo')
 
     # Phase 4 of Cell Startup. The nexus + service mirroring is now online.
     async def initServiceRuntime(self):
