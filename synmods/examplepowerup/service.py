@@ -4,7 +4,7 @@ import collections.abc
 import synapse.lib.cell as s_cell
 import synapse.lib.stormsvc as s_stormsvc
 
-import synapse.tools.genpkg as s_genpkg
+import synapse.tools.storm.pkg.gen as s_genpkg
 
 import synmods.examplepowerup.assets as svc_assets
 import synmods.examplepowerup.version as svc_version
